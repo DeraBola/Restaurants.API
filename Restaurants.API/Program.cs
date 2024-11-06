@@ -1,5 +1,5 @@
+using Restaurants.Application.Extensions;
 using Restaurants.Infrastructure.Extensions;
-using Restaurants.API.Controllers;
 using Restaurants.Infrastructure.Seeders;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IWeatherForcastService, WeatherForcastService>();
+builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
