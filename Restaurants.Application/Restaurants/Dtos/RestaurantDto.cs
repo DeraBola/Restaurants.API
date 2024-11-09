@@ -8,7 +8,7 @@ using Restaurants.Domain.Entities;
 
 namespace Restaurants.Application.Restaurants.Dtos
 {
-	internal class RestaurantDto
+	public class RestaurantDto
 	{
 		public int Id { get; set; }
 		public string Name { get; set; } = default!;
@@ -21,5 +21,23 @@ namespace Restaurants.Application.Restaurants.Dtos
 		public string? PostalCode { get; set; }
 
 		public List<DishDto> Dishes { get; set; } = [];
+
+		public static RestaurantDto? FromEntity(Restaurant? restaurant)
+		{
+			if (restaurant == null) return null;
+
+			return new RestaurantDto()
+			{
+				Category = restaurant.Category,
+				Description = restaurant.Description,
+				Id = restaurant.Id,
+				HasDelivery = restaurant.HasDelivery,
+				Name = restaurant.Name,
+				City = restaurant.Address?.City,
+				Street = restaurant.Address?.Street,
+				PostalCode = restaurant.Address?.PostalCode,
+				Dishes = restaurant.Dishes.Select(DishDto.FromEntity).ToList(),
+			};
+		}
 	}
 }
