@@ -9,7 +9,7 @@ namespace Restaurants.Infrastructure.Repositories
 	{
 		public async Task<IEnumerable<Restaurant>> GetAllAsync()
 		{
-			var restaurants = await dbContext.Restaurants.ToListAsync();
+			var restaurants = await dbContext.Restaurants.Include(r => r.Dishes).ToListAsync();
 			return restaurants;
 		}
 
@@ -17,7 +17,7 @@ namespace Restaurants.Infrastructure.Repositories
 		{
 			var restaurant = await dbContext.Restaurants
 				.Include(r => r.Dishes)
-				.FirstOrDefaultAsync(x => x.Id == id);
+				.FirstOrDefaultAsync(r => r.Id == id);
 			return restaurant;
 		}
 	}

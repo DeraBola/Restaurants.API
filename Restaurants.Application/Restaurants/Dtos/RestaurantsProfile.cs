@@ -7,14 +7,9 @@ namespace Restaurants.Application.Restaurants.Dtos
 	{
 		public RestaurantsProfile() {
 			CreateMap<Restaurant, RestaurantDto>()
-				.ForMember(d => d.City, opt =>
-				opt.MapFrom(src => src.Address == null ? null : src.Address.City))
-				.ForMember(d => d.PostalCode, opt =>
-				opt.MapFrom(src => src.Address == null ? null : src.Address.PostalCode))
-				.ForMember(d => d.Street, opt =>
-				opt.MapFrom(src => src.Address == null ? null : src.Address.Street))
+				.ForMember(d => d.Address, opt => opt.MapFrom(src => src.Address))
 				.ForMember(d => d.Dishes, opt =>
-				opt.MapFrom(src => src.Dishes));
+		        opt.MapFrom(src => src.Dishes));
 		}
 	}
 }
