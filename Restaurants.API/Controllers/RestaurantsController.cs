@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application.Restaurants;
+using Restaurants.Application.Restaurants.Dtos;
 
 namespace Restaurants.API.Controllers
 {
 	[Route("api/restaurants")]
-	[ApiController]
+	//[ApiController]
 	public class RestaurantsController(IRestaurantsService restaurantsService) : ControllerBase
 	{
 		[HttpGet]
@@ -23,6 +24,18 @@ namespace Restaurants.API.Controllers
 			if(restaurant == null)
 				return NotFound();
 			return Ok(restaurant);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> CreateRestaurant([FromBody] CreateRestaurantDto createRestaurantDto)
+		{
+			if(!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			int id = await restaurantsService.Create(createRestaurantDto);
+			return CreatedAtAction(nameof(GetById), new { id }, null);
 		}
 	}
 }
