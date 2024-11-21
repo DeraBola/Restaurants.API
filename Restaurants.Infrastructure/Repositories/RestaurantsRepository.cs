@@ -33,5 +33,8 @@ namespace Restaurants.Infrastructure.Repositories
 				.FirstOrDefaultAsync(r => r.Id == id);
 			return restaurant;
 		}
+
+		public Task SaveChanges()
+		=> dbContext.SaveChangesAsync();
 	}
 }
