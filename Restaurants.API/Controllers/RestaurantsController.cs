@@ -17,6 +17,7 @@ namespace Restaurants.API.Controllers
 	public class RestaurantsController(IMediator mediator) : ControllerBase
 	{
 		[HttpGet]
+		//[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<RestaurantDto>)]
 		public async Task<IActionResult> GetAll()
 		{
 			var restaurants = await mediator.Send(new GetAllRestaurantsQuery());	
