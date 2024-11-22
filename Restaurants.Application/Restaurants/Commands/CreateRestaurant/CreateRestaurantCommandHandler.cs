@@ -12,7 +12,7 @@ namespace Restaurants.Application.Restaurants.Commands.CreateRestaurant
 	{
 		public async Task<int> Handle(CreateRestaurantCommand request, CancellationToken cancellationToken)
 		{
-			logger.LogInformation("Creating information");
+			logger.LogInformation("Creating a new {@Restaurant})", request);
 			var restaurant = mapper.Map<Restaurant>(request);
 			int id = await restaurantsRepository.Create(restaurant);
 			return id;
