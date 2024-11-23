@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application.Dishes.Command.CreateDish;
 using Restaurants.Application.Dishes.Dtos;
+using Restaurants.Application.Dishes.Query.GetDishByIdForRestaurant;
 using Restaurants.Application.Dishes.Query.GetDishesForRestaurant;
 
 namespace Restaurants.API.Controllers
@@ -26,12 +27,12 @@ namespace Restaurants.API.Controllers
 			return Ok(dishes);
 		}
 
-		/* [HttpGet]
-		public async Task<ActionResult<IEnumerable<DishDto>>> GetByIdForRestaurant([FromRoute] int restaurantID)
+		[HttpGet("{dishId}")]
+		public async Task<ActionResult<DishDto>> GetByIdForRestaurant([FromRoute] int restaurantID, [FromRoute] int dishId)
 		{
-			var dishes = await mediator.Send(new GetDishesForRestaurantQuery(restaurantID));
-			return Ok(dishes);
+			var dish = await mediator.Send(new GetDishByIdForRestaurantQuery(restaurantID, dishId));
+			return Ok(dish);
 		}
-		*/
+		
 	}
 }
