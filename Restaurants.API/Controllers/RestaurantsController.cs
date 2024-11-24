@@ -1,5 +1,6 @@
 ﻿using System.Reflection.Metadata.Ecma335;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application.Restaurants;
@@ -12,19 +13,23 @@ using Restaurants.Application.Restaurants.Queries.GetRestaurantById;
 
 namespace Restaurants.API.Controllers
 {
+	[ApiController]
 	[Route("api/restaurants")]
-	//[ApiController]
+	//[Authorize]
 	public class RestaurantsController(IMediator mediator) : ControllerBase
 	{
 		[HttpGet]
+		[Authorize]
 		//[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<RestaurantDto>)]
 		public async Task<IActionResult> GetAll()
 		{
+			var userId = User.Claims.FirstOrDefault(c => c.Type == "<id claim type>")!.Value;
 			var restaurants = await mediator.Send(new GetAllRestaurantsQuery());	
 			return Ok(restaurants);
 		}
 
 		[HttpGet("{id}")]
+		//[AllowAnonymous]
 		public async Task<IActionResult> GetById([FromRoute] int id)
 		{
 			var restaurant = await mediator.Send(new GetRestaurantByIdQuery(id));
