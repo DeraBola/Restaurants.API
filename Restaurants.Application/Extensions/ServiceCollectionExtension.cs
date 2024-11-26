@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
-using Restaurants.Application.Restaurants;
-using Restaurants.Domain.Repositories;
+using Restaurants.Application.Serialization;
+using Restaurants.Application.Users;
 
 namespace Restaurants.Application.Extensions
 {
@@ -20,6 +15,15 @@ namespace Restaurants.Application.Extensions
 			services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(applicationAssembly));
 			services.AddAutoMapper(applicationAssembly);
 			services.AddValidatorsFromAssembly(applicationAssembly).AddFluentValidationAutoValidation();
+			services.AddScoped<IUserContext, UserContext>();
+			services.AddHttpContextAccessor();
+
+			services.AddControllers()
+			   .AddJsonOptions(options =>
+			   {
+				   options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+			   });
+
 		}
 	}
 }

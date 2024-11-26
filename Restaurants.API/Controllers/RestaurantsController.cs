@@ -24,7 +24,7 @@ namespace Restaurants.API.Controllers
 		public async Task<IActionResult> GetAll()
 		{
 			var userId = User.Claims.FirstOrDefault(c => c.Type == "<id claim type>")!.Value;
-			var restaurants = await mediator.Send(new GetAllRestaurantsQuery());	
+			var restaurants = await mediator.Send(new GetAllRestaurantsQuery(userId));	
 			return Ok(restaurants);
 		}
 
