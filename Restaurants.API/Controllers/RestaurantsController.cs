@@ -1,4 +1,5 @@
 ﻿using System.Reflection.Metadata.Ecma335;
+using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +12,6 @@ using Restaurants.Application.Restaurants.Dtos;
 using Restaurants.Application.Restaurants.Queries.GetAllRestaurants;
 using Restaurants.Application.Restaurants.Queries.GetRestaurantById;
 using Restaurants.Domain.Constants;
-using Restaurants.Domain.Entities;
 
 namespace Restaurants.API.Controllers
 {
@@ -21,17 +21,23 @@ namespace Restaurants.API.Controllers
 	public class RestaurantsController(IMediator mediator) : ControllerBase
 	{
 		[HttpGet]
-		[Authorize]
 		//[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<RestaurantDto>)]
 		public async Task<IActionResult> GetAll()
 		{
-			var userId = User.Claims.FirstOrDefault(c => c.Type == "<id claim type>")!.Value;
+			var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+			if (string.IsNullOrEmpty(userId))
+			{
+				return Unauthorized("User ID not found in claims.");
+			}
+			 
 			var restaurants = await mediator.Send(new GetAllRestaurantsQuery(userId));	
 			return Ok(restaurants);
 		}
 
 		[HttpGet("{id}")]
 		//[AllowAnonymous]
+		[Authorize(Policy = "HasNationality" )]
 		public async Task<IActionResult> GetById([FromRoute] int id)
 		{
 			var restaurant = await mediator.Send(new GetRestaurantByIdQuery(id));
