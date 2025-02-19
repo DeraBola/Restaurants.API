@@ -10,6 +10,8 @@ using Restaurants.Application.Restaurants.Commands.UpdateRestaurant;
 using Restaurants.Application.Restaurants.Dtos;
 using Restaurants.Application.Restaurants.Queries.GetAllRestaurants;
 using Restaurants.Application.Restaurants.Queries.GetRestaurantById;
+using Restaurants.Domain.Constants;
+using Restaurants.Domain.Entities;
 
 namespace Restaurants.API.Controllers
 {
@@ -38,6 +40,7 @@ namespace Restaurants.API.Controllers
 
 
 		[HttpPost]
+		[Authorize(Roles = UserRoles.Owner)]
 		public async Task<IActionResult> CreateRestaurant([FromBody] CreateRestaurantCommand createCommand)
 		{
 			if (!ModelState.IsValid)
