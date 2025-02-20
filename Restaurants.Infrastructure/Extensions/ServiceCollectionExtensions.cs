@@ -31,7 +31,8 @@ namespace Restaurants.Infrastructure.Extensions
 			services.AddScoped<IRestaurantsRepository, RestaurantsRepository>();
 			services.AddScoped<IDishesRepository, DishesRepository>();
 			services.AddAuthorizationBuilder()
-				.AddPolicy("HasNationality", builder => builder.RequireClaim("Nationality"));
+				.AddPolicy(PolicyNames.HasNationality, builder => builder.RequireClaim(AppClaimTypes.Nationality))
+			.AddPolicy(PolicyNames.Atleast20, builder => builder.AddRequirements());
 		}
 	}
 }
