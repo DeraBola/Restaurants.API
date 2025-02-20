@@ -1,14 +1,10 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Restaurants.Application.Restaurants;
 using Restaurants.Application.Restaurants.Commands.CreateRestaurant;
 using Restaurants.Application.Restaurants.Commands.DeleteRestaurant;
 using Restaurants.Application.Restaurants.Commands.UpdateRestaurant;
-using Restaurants.Application.Restaurants.Dtos;
 using Restaurants.Application.Restaurants.Queries.GetAllRestaurants;
 using Restaurants.Application.Restaurants.Queries.GetRestaurantById;
 using Restaurants.Domain.Constants;
@@ -22,6 +18,7 @@ namespace Restaurants.API.Controllers
 	public class RestaurantsController(IMediator mediator) : ControllerBase
 	{
 		[HttpGet]
+		[Authorize(Policy = PolicyNames.Atleast20)]
 		//[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<RestaurantDto>)]
 		public async Task<IActionResult> GetAll()
 		{
@@ -38,7 +35,7 @@ namespace Restaurants.API.Controllers
 
 		[HttpGet("{id}")]
 		//[AllowAnonymous]
-		[Authorize(Policy = PolicyNames.HasNationality )]
+		[Authorize(Policy = PolicyNames.HasNationality)]
 		public async Task<IActionResult> GetById([FromRoute] int id)
 		{
 			var restaurant = await mediator.Send(new GetRestaurantByIdQuery(id));

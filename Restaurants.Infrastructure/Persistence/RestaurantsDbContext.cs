@@ -24,6 +24,10 @@ namespace Restaurants.Infrastructure.Persistence
 			modelBuilder.Entity<Dish>()
 	            .Property(d => d.Price)
 	            .HasColumnType("decimal(18,2)");
+			modelBuilder.Entity<User>()
+				.HasMany(o => o.OwnedRestaurant)
+				.WithOne(r => r.Owner)
+				.HasForeignKey(d => d.OwnerId);
 		}
 	}
 }

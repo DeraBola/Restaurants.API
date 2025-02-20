@@ -26,9 +26,11 @@ namespace Restaurants.Application.Users
 			var roles = user.Claims.Where(c => c.Type == ClaimTypes.Email)!.Select(c => c.Value);
 			var nationality = user.FindFirst(c => c.Type == "Nationality")?.Value;
 			var dateOfBirthString = user.FindFirst(c => c.Type == "DateOfBirth")?.Value;
-			var dateOfBirth = dateOfBirthString == null ? (DateOnly?)null : new DateTime(
+			var dateOfBirth = dateOfBirthString == null
+				? (DateOnly?)null
+				: DateOnly.ParseExact(dateOfBirthString, "yyyy-MM-dd");
 
-			return new CurrentUser(userId, email, roles);
+			return new CurrentUser(userId, email, roles, dateOfBirthString, dateOfBirth);
 		}
 	}
 }
