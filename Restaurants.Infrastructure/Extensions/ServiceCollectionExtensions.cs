@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Protocols;
 using Restaurants.Domain.Entities;
+using Restaurants.Domain.Interfaces;
 using Restaurants.Domain.Repositories;
 using Restaurants.Infrastructure.Authorization;
 using Restaurants.Infrastructure.Authorization.Requirements;
@@ -37,7 +37,7 @@ namespace Restaurants.Infrastructure.Extensions
 			.AddPolicy(PolicyNames.Atleast20, builder => builder.AddRequirements(new MinimumAgeRequirement(20)));
 
 			services.AddScoped<IAuthorizationHandler, MinimumAgeRequirementHandler>();
-
+			services.AddScoped<IRestaurantAuthorizationService, RestaurantAuthorizationService>();
 		}
 	}
 }
