@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application.Restaurants.Commands.CreateRestaurant;
 using Restaurants.Application.Restaurants.Commands.DeleteRestaurant;
 using Restaurants.Application.Restaurants.Commands.UpdateRestaurant;
+using Restaurants.Application.Restaurants.Dtos;
 using Restaurants.Application.Restaurants.Queries.GetAllRestaurants;
 using Restaurants.Application.Restaurants.Queries.GetRestaurantById;
 using Restaurants.Domain.Constants;
@@ -20,22 +21,16 @@ namespace Restaurants.API.Controllers
 		[HttpGet]
 		[Authorize(Policy = PolicyNames.Atleast20)]
 		//[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<RestaurantDto>)]
-		public async Task<IActionResult> GetAll()
+		public async Task<ActionResult<IEnumerable<RestaurantDto>>> GetAll([FromQuery] GetAllRestaurantsQuery query)
 		{
-			var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
-			if (string.IsNullOrEmpty(userId))
-			{
-				return Unauthorized("User ID not found in claims.");
-			}
-			 
-			var restaurants = await mediator.Send(new GetAllRestaurantsQuery(userId));	
+			var restaurants = await mediator.Send(query);
 			return Ok(restaurants);
 		}
 
 		[HttpGet("{id}")]
 		//[AllowAnonymous]
-		[Authorize(Policy = PolicyNames.HasNationality)]
+		//[Authorize(Policy = PolicyNames.HasNationality)]
+		[Authorize(Policy = PolicyNames.CreatedAtLeast2Restaurants)]
 		public async Task<IActionResult> GetById([FromRoute] int id)
 		{
 			var restaurant = await mediator.Send(new GetRestaurantByIdQuery(id));

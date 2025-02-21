@@ -6,18 +6,32 @@ using Restaurants.Domain.Repositories;
 
 namespace Restaurants.Application.Restaurants.Queries.GetAllRestaurants
 {
-	public class GetAllRestaurantsQueryHandler(ILogger<GetAllRestaurantsQueryHandler> logger, 
+	public class GetAllRestaurantsQueryHandler(ILogger<GetAllRestaurantsQueryHandler> logger,
 		IMapper mapper,
 		IRestaurantsRepository restaurantsRepository) : IRequestHandler<GetAllRestaurantsQuery, IEnumerable<RestaurantDto>>
 	{
 		public async Task<IEnumerable<RestaurantDto>> Handle(GetAllRestaurantsQuery request, CancellationToken cancellationToken)
 		{
-			logger.LogInformation("Getting all Restaurants");
-			var restaurants = await restaurantsRepository.GetAllAsync();
+			logger.LogInformation("Getting all restaurants");
 
-			var restaurantsDto = mapper.Map<IEnumerable<RestaurantDto>>(restaurants);
+			//var restaurants = await restaurantsRepository.GetAllAsync();
 
-			return restaurantsDto ?? Enumerable.Empty<RestaurantDto>();
+			var (restaurants, totalCount) = await restaurantsRepository.GetAllMatchingAsync(request.SearchPhrase,
+			request.PageSize,
+			request.PageNumber,
+			request.SortBy,
+			request.SortDirection);
+
+			/*
+         * Manual mapping between Restaurant entity and RestaurantDto
+            var restaurantsDtos = restaurants.Select(RestaurantDto.FromEntity);
+        */
+			// Better way of mapping
+
+			var restaurantsDtos = mapper.Map<IEnumerable<RestaurantDto>>(restaurants);
+
+			var result = new PagedResult<RestaurantDto>(restaurantsDtos, totalCount, request.PageSize, request.PageNumber);
+			return result;
 		}
 	}
 }

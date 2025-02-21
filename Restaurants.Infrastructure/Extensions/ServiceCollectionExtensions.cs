@@ -7,14 +7,15 @@ using Restaurants.Domain.Entities;
 using Restaurants.Domain.Interfaces;
 using Restaurants.Domain.Repositories;
 using Restaurants.Infrastructure.Authorization;
-using Restaurants.Infrastructure.Authorization.Requirements;
+using Restaurants.Infrastructure.Authorization.Requirements.CreatedMultipleRestaurantsRequirement;
+using Restaurants.Infrastructure.Authorization.Requirements.MinimumAgeRequirement;
 using Restaurants.Infrastructure.Persistence;
 using Restaurants.Infrastructure.Repositories;
 using Restaurants.Infrastructure.Seeders;
 
 namespace Restaurants.Infrastructure.Extensions
 {
-	public static class ServiceCollectionExtensions
+    public static class ServiceCollectionExtensions
 	{
 		public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration )
 		{
@@ -33,9 +34,13 @@ namespace Restaurants.Infrastructure.Extensions
 			services.AddScoped<IRestaurantsRepository, RestaurantsRepository>();
 			services.AddScoped<IDishesRepository, DishesRepository>();
 			services.AddAuthorizationBuilder()
-				.AddPolicy(PolicyNames.HasNationality, builder => builder.RequireClaim(AppClaimTypes.Nationality))
-			.AddPolicy(PolicyNames.Atleast20, builder => builder.AddRequirements(new MinimumAgeRequirement(20)));
+			.AddPolicy(PolicyNames.HasNationality, builder => builder.RequireClaim(AppClaimTypes.Nationality))
 
+			.AddPolicy(PolicyNames.Atleast20, builder => builder.AddRequirements(new MinimumAgeRequirement(20)))
+
+			.AddPolicy(PolicyNames.CreatedAtLeast2Restaurants,
+				builder => builder.AddRequirements(new CreatedMultipleRestaurantsRequirement(2)));
+ 
 			services.AddScoped<IAuthorizationHandler, MinimumAgeRequirementHandler>();
 			services.AddScoped<IRestaurantAuthorizationService, RestaurantAuthorizationService>();
 		}

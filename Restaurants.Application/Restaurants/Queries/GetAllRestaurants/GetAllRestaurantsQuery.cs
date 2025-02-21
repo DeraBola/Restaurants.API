@@ -1,11 +1,17 @@
 ﻿
 using MediatR;
 using Restaurants.Application.Restaurants.Dtos;
+using Restaurants.Domain.Constants;
 
 namespace Restaurants.Application.Restaurants.Queries.GetAllRestaurants
 {
-	public class GetAllRestaurantsQuery(string userId) : IRequest<IEnumerable<RestaurantDto>>
+	public class GetAllRestaurantsQuery : IRequest<IEnumerable<RestaurantDto>>
 	{
-		public string UserId { get; set; } = userId;
+		//public string UserId { get; set; } = userId;
+		public string? SearchPhrase { get; set; }
+		public int PageNumber { get; set; }
+		public int PageSize { get; set; }
+		public string? SortBy { get; set; }
+		public SortDirection SortDirection { get; set; }
 	}
 }
