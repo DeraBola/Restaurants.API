@@ -24,4 +24,9 @@
     <ProjectReference Include="..\Restaurants.Application\Restaurants.Application.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="Restaurants.InfrastructureTests4" />
+	</ItemGroup>
+
+
 </Project>
