@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Restaurants.Application.Restaurants.Commands.DeleteRestaurant;
 using Restaurants.Domain.Constants;
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.Exceptions;
@@ -10,9 +9,9 @@ using Restaurants.Domain.Repositories;
 
 namespace Restaurants.Application.Restaurants.Commands.UpdateRestaurant;
 
-public class UpdateRestaurantCommandHandler(ILogger<DeleteRestaurantCommandHandler> logger,
-		IRestaurantsRepository restaurantsRepository,
+public class UpdateRestaurantCommandHandler(ILogger<UpdateRestaurantCommandHandler> logger,
 		IMapper mapper,
+		IRestaurantsRepository restaurantsRepository,
 		IRestaurantAuthorizationService restaurantAuthorizationService) : IRequestHandler<UpdateRestaurantCommand>
 {
 	public async Task Handle(UpdateRestaurantCommand request, CancellationToken cancellationToken)
