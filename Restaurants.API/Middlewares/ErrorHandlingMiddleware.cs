@@ -11,11 +11,25 @@ namespace Restaurants.API.Middlewares
 			{
 				await next.Invoke(context);
 			}
-			catch(NotFoundException notFound)
+			catch (BadRequestException badRequest)
 			{
-				context.Response.StatusCode = 400;
-				await context.Response.WriteAsync(notFound.Message);
-				logger.LogWarning(notFound.Message);
+				context.Response.StatusCode = 400; // ✅ 400 Bad Request
+				context.Response.ContentType = "application/json";
+
+				var response = new { message = badRequest.Message };
+				await context.Response.WriteAsJsonAsync(response);
+
+				logger.LogWarning("Bad Request: {Message}", badRequest.Message);
+			}
+			catch (NotFoundException notFound)
+			{
+				context.Response.StatusCode = 404; // ✅ 404 Not Found
+				context.Response.ContentType = "application/json";
+
+				var response = new { message = notFound.Message };
+				await context.Response.WriteAsJsonAsync(response);
+
+				logger.LogWarning("Not Found: {Message}", notFound.Message);
 			}
 			catch (ForbidException)
 			{

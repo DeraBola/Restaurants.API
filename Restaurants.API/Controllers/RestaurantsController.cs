@@ -34,6 +34,7 @@ namespace Restaurants.API.Controllers
 		public async Task<IActionResult> GetById([FromRoute] int id)
 		{
 			var restaurant = await mediator.Send(new GetRestaurantByIdQuery(id));
+
 			return Ok(restaurant);
 		}
 
