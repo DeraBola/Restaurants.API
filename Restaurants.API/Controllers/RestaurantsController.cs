@@ -29,8 +29,8 @@ namespace Restaurants.API.Controllers
 
 		[HttpGet("{id}")]
 		//[AllowAnonymous]
-		//[Authorize(Policy = PolicyNames.HasNationality)]
-		[Authorize(Policy = PolicyNames.CreatedAtLeast2Restaurants)]
+		[Authorize(Policy = PolicyNames.HasNationality)]
+		//[Authorize(Policy = PolicyNames.CreatedAtLeast2Restaurants)]
 		public async Task<IActionResult> GetById([FromRoute] int id)
 		{
 			var restaurant = await mediator.Send(new GetRestaurantByIdQuery(id));

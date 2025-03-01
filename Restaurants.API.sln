@@ -13,9 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Restaurants.Infrastructure"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Restaurants.ApplicationTests1", "Restaurants.ApplicationTests1\Restaurants.ApplicationTests1.csproj", "{46C7302D-2256-440C-A067-3D7C117FD0B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Restaurants.InfrastructureTests4", "Restaurants.InfrastructureTests4\Restaurants.InfrastructureTests4.csproj", "{4E68AE4C-62FB-436D-BF86-C55EACAEEF40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Restaurants.InfrastructureTests4", "Restaurants.InfrastructureTests4\Restaurants.InfrastructureTests4.csproj", "{4E68AE4C-62FB-436D-BF86-C55EACAEEF40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Restaurants.APITests", "Restaurants.APITests\Restaurants.APITests.csproj", "{5C711EC8-4649-4DE0-AE79-16814AC9A5D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Restaurants.APITests", "Restaurants.APITests\Restaurants.APITests.csproj", "{5C711EC8-4649-4DE0-AE79-16814AC9A5D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0B134A19-F707-4511-B359-82045D81B4EB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0C980828-E2E0-46DE-90E9-D9506BB402C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +58,15 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9D7E36A6-A1BA-45F6-B82D-2F0C16632763} = {0C980828-E2E0-46DE-90E9-D9506BB402C0}
+		{95207AF5-5CF0-43A0-A46E-614FEB56079B} = {0C980828-E2E0-46DE-90E9-D9506BB402C0}
+		{90DCC7D3-BD6C-447E-8466-E1FDE9426244} = {0C980828-E2E0-46DE-90E9-D9506BB402C0}
+		{A7710320-CBCF-4E8D-9B61-1BC9C5A92E54} = {0C980828-E2E0-46DE-90E9-D9506BB402C0}
+		{46C7302D-2256-440C-A067-3D7C117FD0B2} = {0B134A19-F707-4511-B359-82045D81B4EB}
+		{4E68AE4C-62FB-436D-BF86-C55EACAEEF40} = {0B134A19-F707-4511-B359-82045D81B4EB}
+		{5C711EC8-4649-4DE0-AE79-16814AC9A5D6} = {0B134A19-F707-4511-B359-82045D81B4EB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {83FCE1DF-5508-46CE-9C1B-9B60AFF0A7A5}
